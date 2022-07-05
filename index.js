@@ -3,11 +3,13 @@ import cTable from 'console.table';
 import db from './config/connection.js';
 
 const showDepartments = () => {
-    db.promise().query(`SELECT * FROM "departments"`).then((err,res) => {
+    db.promise().query('SELECT * FROM department;').then((err,res) => {
         if (err) throw err;
+        // Print data retrieved to terminal in table format
         console.table(res);
     });
 };
+
 
 const init = () => {
     inquirer.prompt([
@@ -16,20 +18,20 @@ const init = () => {
             type: 'list',
             name: 'task',
             message: 'What would you like to do?',
-            choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role']
+            choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee Role']
         }
     ]).then(({task}) => {
-        task == 'view all departments'
+        task == 'View All Departments'
         ? showDepartments()
-        : task == 'view all roles'
+        : task == 'View All Roles'
         ? showRoles()
-        : task == 'view all employees'
+        : task == 'View All Employees'
         ? showEmployees()
-        : task == 'add a department'
+        : task == 'Add a Department'
         ? addDepartment()
-        : task == 'add a role'
+        : task == 'Add a Role'
         ? addRole()
-        : task == 'add an employee'
+        : task == 'Add an Employee'
         ? addEmployee()
         : updateEmployeeRole()
     })    
