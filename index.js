@@ -10,7 +10,6 @@ const showDepartments = () => {
     });
 };
 
-
 const init = () => {
     inquirer.prompt([
 
