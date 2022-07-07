@@ -5,6 +5,8 @@ A command-line application that manages a company's employee database, using Nod
 
 
 [![Demo](https://cdn.loom.com/sessions/thumbnails/6dd2a2deef994fcebb4c6c5901d0a04a-1657165649808-with-play.gif)]https://www.loom.com/share/6dd2a2deef994fcebb4c6c5901d0a04a)
+![Employee Database](https://user-images.githubusercontent.com/101844445/177688310-b9357d8b-c68b-46d7-801f-80be2e2bebc1.PNG)
+
 
 
  ## Table of Contents
