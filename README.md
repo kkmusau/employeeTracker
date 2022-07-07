@@ -1,7 +1,7 @@
 # 12 SQL: Employee Tracker
 
 ## Description 
-A command-line application that manages a company's employee database, using Node.js, Inquirer, and MySQL. 
+A command-line application that manages a company's employee database, using Node.js, Inquirer, and MySQL. This application when executed will present the following options: view all employees in the company, add a department to the company, add a role to the company, and an employee to the company and update the company employee's role. 
 
 
 
