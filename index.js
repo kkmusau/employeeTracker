@@ -71,8 +71,7 @@ function addDepartment() {
 }
 
 async function addRole() {
-
-    let options = await db
+  let options = await db
     .promise()
     .query("SELECT id, department_name FROM department")
     .then((result) =>
@@ -101,27 +100,89 @@ async function addRole() {
       },
       {
         type: "number",
-        name:"salary",
+        name: "salary",
         message: "What is the salary?",
-
       },
       {
-        type: 'list',
-        name: 'department_id',
-        message: 'For which department this role belongs to?',
-        choices: options
-      }
+        type: "list",
+        name: "department_id",
+        message: "For which department does this role belong to?",
+        choices: options,
+      },
     ])
-    .then(({title,salary,department_id}) => {
-
-
+    .then(({ title, salary, department_id }) => {
       const sql = `INSERT INTO role (title, salary, department_id ) VALUES (?,?,?)`;
-      db.query(sql, [title,salary,department_id], (err, result) => {
+      db.query(sql, [title, salary, department_id], (err, result) => {
         if (err) throw err;
         console.log("Added " + title + " to role!");
 
         showDepartments();
       });
+    });
+}
+
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the first name of the employee?",
+        name: "FirstName",
+      },
+      {
+        type: "input",
+        message: "What's the last name of the employee?",
+        name: "LastName",
+      },
+      {
+        type: "input",
+        message: "What is the employee's role id number?",
+        name: "roleID",
+      },
+      {
+        type: "input",
+        message: "What is the manager id number?",
+        name: "managerID",
+      },
+    ])
+    .then(function (answer) {
+      db.query(
+        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+        [answer.FirstName, answer.LastName, answer.roleID, answer.managerID],
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          init();
+        }
+      );
+    });
+}
+
+function updateEmployeeRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Which employee would you like to update?",
+        name: "employeeUpdate",
+      },
+
+      {
+        type: "input",
+        message: "What do you want to update to?",
+        name: "updateRole",
+      },
+    ])
+    .then(function (answer) {
+      db.query(
+        "UPDATE employee SET role_id=? WHERE first_name= ?",
+        [answer.updateRole, answer.employeeUpdate],
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          showDepartments();
+        }
+      );
     });
 }
 
@@ -161,4 +222,4 @@ const init = () => {
 };
 
 // showDepartments();
-addRole();
+addEmployee();
