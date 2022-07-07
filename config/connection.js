@@ -1,5 +1,6 @@
 import mysql from "mysql2";
 
+//Creates a connection to sql database
 const db = mysql.createConnection(
   {
     host: "localhost",

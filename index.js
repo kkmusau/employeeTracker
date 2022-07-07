@@ -2,14 +2,7 @@ import inquirer from "inquirer";
 import cTable from "console.table";
 import db from "./config/connection.js";
 
-// const showDepartments = () => {
-//     db.query('SELECT * FROM department;').then((err,res) => {
-//         if (err) throw err;
-//         // Print data retrieved to terminal in table format
-//         console.table(res);
-//     });
-// };
-
+// Fuunction to show all departments in the database
 function showDepartments() {
   // SQL command to select data from department table
   let query = "SELECT * FROM department";
@@ -23,6 +16,7 @@ function showDepartments() {
   });
 }
 
+// Fuunction to show all roles in the database
 function showRoles() {
   let query = "SELECT * FROM role";
   db.query(query, function (err, res) {
@@ -32,6 +26,8 @@ function showRoles() {
   });
 }
 
+
+// Fuunction to show all employees in the database
 function showEmployees() {
   let query = "SELECT * FROM employee";
   db.query(query, function (err, res) {
@@ -41,7 +37,7 @@ function showEmployees() {
   });
 }
 
-// function to add a department
+// Function to add a department
 function addDepartment() {
   inquirer
     .prompt([
@@ -70,6 +66,7 @@ function addDepartment() {
     });
 }
 
+// Function to add a role
 async function addRole() {
   let options = await db
     .promise()
@@ -121,6 +118,7 @@ async function addRole() {
     });
 }
 
+// Function to add an Employee
 function addEmployee() {
   inquirer
     .prompt([
@@ -158,6 +156,7 @@ function addEmployee() {
     });
 }
 
+// Function to update the employee's role
 function updateEmployeeRole() {
   inquirer
     .prompt([
@@ -186,6 +185,7 @@ function updateEmployeeRole() {
     });
 }
 
+// An array of list prompts that asks the user what they want to do
 const init = () => {
   inquirer
     .prompt([
@@ -221,5 +221,5 @@ const init = () => {
     });
 };
 
-// showDepartments();
-addEmployee();
+showDepartments();
+
