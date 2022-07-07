@@ -10,7 +10,6 @@ import db from "./config/connection.js";
 //     });
 // };
 
-
 function showDepartments() {
   // SQL command to select data from department table
   let query = "SELECT * FROM department";
@@ -35,26 +34,95 @@ function showRoles() {
 
 function showEmployees() {
   let query = "SELECT * FROM employee";
- db.query(query, function (err, res) {
+  db.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
     init();
+  });
+}
+
+// function to add a department
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "addDept",
+        message: "What department do you want to add?",
+        validate: (addDept) => {
+          if (addDept) {
+            return true;
+          } else {
+            console.log("Please enter a department");
+            return false;
+          }
+        },
+      },
+    ])
+    .then((answer) => {
+      const sql = `INSERT INTO department (department_name) VALUES (?)`;
+      db.query(sql, answer.addDept, (err, result) => {
+        if (err) throw err;
+        console.log("Added " + answer.addDept + " to departments!");
+
+        showDepartments();
+      });
     });
 }
 
-function addDepartment() {
-    inquirer.prompt({     
-        type: "input",
-        message: "What department do you want to add?",
-        name: "addDept"
+async function addRole() {
 
-    }).then(function(answer){
-        db.query("INSERT INTO department (name) VALUES (?)", [answer.addDept] , function(err, res) {
-            if (err) throw err;
-            console.table(res);
-            init();
-    })
-    })
+    let options = await db
+    .promise()
+    .query("SELECT id, department_name FROM department")
+    .then((result) =>
+      result[0].map((obj) => {
+        return {
+          name: Object.values(obj)[1],
+          value: Object.values(obj)[0],
+        };
+      })
+    );
+
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What role do you want to add?",
+        validate: (addRole) => {
+          if (addRole) {
+            return true;
+          } else {
+            console.log("Please enter a role");
+            return false;
+          }
+        },
+      },
+      {
+        type: "number",
+        name:"salary",
+        message: "What is the salary?",
+
+      },
+      {
+        type: 'list',
+        name: 'department_id',
+        message: 'For which department this role belongs to?',
+        choices: options
+      }
+    ])
+    .then(({title,salary,department_id}) => {
+
+
+      const sql = `INSERT INTO role (title, salary, department_id ) VALUES (?,?,?)`;
+      db.query(sql, [title,salary,department_id], (err, result) => {
+        if (err) throw err;
+        console.log("Added " + title + " to role!");
+
+        showDepartments();
+      });
+    });
 }
 
 const init = () => {
@@ -92,4 +160,5 @@ const init = () => {
     });
 };
 
-showDepartments();
+// showDepartments();
+addRole();
